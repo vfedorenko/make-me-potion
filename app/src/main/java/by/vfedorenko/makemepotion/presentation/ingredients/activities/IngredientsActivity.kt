@@ -5,16 +5,16 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientsViewModel
 import by.vfedorenko.makemepotion.R
-import by.vfedorenko.makemepotion.businesslogic.IngredientsRepository
 import by.vfedorenko.makemepotion.databinding.ActivityIngredientsBinding
 import by.vfedorenko.makemepotion.presentation.App
+import by.vfedorenko.makemepotion.presentation.BaseToolbarActivity
 import by.vfedorenko.makemepotion.presentation.ingredients.assemblies.IngredientsModule
+import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientsViewModel
 import javax.inject.Inject
 import javax.inject.Named
 
-class IngredientsActivity : AppCompatActivity() {
+class IngredientsActivity : BaseToolbarActivity() {
     companion object {
         private const val EXTRA_EFFECT_NAME = "EXTRA_EFFECT_NAME"
         private const val EXTRA_IS_MAKE_POTION = "EXTRA_IS_MAKE_POTION"
@@ -36,12 +36,12 @@ class IngredientsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         (application as App).injectMe(this)
 
-        viewModel
+        viewModel.isMakePotion = intent.getBooleanExtra(EXTRA_IS_MAKE_POTION, false)
 
         val binding = DataBindingUtil.setContentView<ActivityIngredientsBinding>(this, R.layout.activity_ingredients)
         binding.viewModel = viewModel
 
-        setSupportActionBar(binding.toolbar)
+        setupToolbar(binding.toolbar, displayUp = true)
     }
 
     override fun onResume() {

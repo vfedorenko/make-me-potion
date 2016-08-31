@@ -30,11 +30,26 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adapter="@{viewModel.adapter}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:adapter="@{viewModel.adapter}" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/make_potion"
+                android:onClick="@{viewModel.onMakeClick}"
+                android:isVisible="@{viewModel.makePotion}"/>
+        </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -45,11 +60,5 @@
             android:onClick="@{viewModel::onFabClick}"
             android:isVisible="@{!viewModel.makePotion}"
             android:src="@mipmap/ic_launcher" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/make_potion"
-            android:isVisible="@{viewModel.makePotion}"/>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

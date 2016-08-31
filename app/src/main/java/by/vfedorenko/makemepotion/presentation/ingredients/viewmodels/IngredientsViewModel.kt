@@ -25,4 +25,8 @@ class IngredientsViewModel
     fun onFabClick(v: View) {
         v.context.startActivity(IngredientsActivity.createIntent(v.context, isMakePotion = true))
     }
+
+    fun onMakeClick(v: View) {
+
+    }
 }

@@ -18,9 +18,9 @@ abstract class BaseToolbarActivity : AppCompatActivity() {
         else -> onOptionsItemSelected(item)
     }
 
-    protected fun setupToolbar(toolbar: Toolbar?, displaySystemTitle: Boolean = true) {
+    protected fun setupToolbar(toolbar: Toolbar?, displaySystemTitle: Boolean = true, displayUp: Boolean = true) {
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(displayUp)
         supportActionBar?.setDisplayShowTitleEnabled(displaySystemTitle)
     }
 }
