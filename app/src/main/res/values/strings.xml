@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Make Me Potion</string>
+    <string name="title_activity_ingredients">IngredientsActivity</string>
+</resources>
