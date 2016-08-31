@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Make Me Potion</string>
     <string name="title_activity_ingredients">IngredientsActivity</string>
+    <string name="make_potion">Make a Potion!</string>
 </resources>

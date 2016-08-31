@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import by.vfedorenko.makemepotion.BR
 import by.vfedorenko.makemepotion.R
+import by.vfedorenko.makemepotion.businesslogic.IngredientsRepository
 import by.vfedorenko.makemepotion.databinding.ItemIngredientBinding
 import by.vfedorenko.makemepotion.entities.Ingredient
 import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientViewModel
@@ -15,7 +16,7 @@ import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.Ingredient
  * Created by Vlad Fedorenko <vfedo92@gmail.com>
  * 08.30.2016
  */
-class IngredientsAdapter  : RecyclerView.Adapter<IngredientsAdapter.BindingHolder>() {
+class IngredientsAdapter(val isMakePotion: Boolean) : RecyclerView.Adapter<IngredientsAdapter.BindingHolder>() {
     class BindingHolder : RecyclerView.ViewHolder {
         var binding: ItemIngredientBinding
             private set
@@ -25,24 +26,25 @@ class IngredientsAdapter  : RecyclerView.Adapter<IngredientsAdapter.BindingHolde
         }
     }
 
-    val benefits: MutableList<Ingredient> = mutableListOf()
+    val ingredients: MutableList<Ingredient> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BindingHolder =
             BindingHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_ingredient, parent, false))
 
-    override fun getItemCount(): Int = benefits.size
+    override fun getItemCount(): Int = ingredients.size
 
     override fun onBindViewHolder(holder: BindingHolder?, position: Int) {
-        val viewModel = IngredientViewModel()
-        viewModel.ingredient = benefits[position]
+        val viewModel = IngredientViewModel(IngredientsRepository())
+        viewModel.ingredient = ingredients[position]
+        viewModel.isCheckBoxVisible = isMakePotion
 
         holder?.binding?.setVariable(BR.viewModel, viewModel)
         holder?.binding?.executePendingBindings()
     }
 
     fun refreshItems(items: List<Ingredient>) {
-        benefits.clear()
-        benefits.addAll(items)
+        ingredients.clear()
+        ingredients.addAll(items)
         notifyDataSetChanged()
     }
 }

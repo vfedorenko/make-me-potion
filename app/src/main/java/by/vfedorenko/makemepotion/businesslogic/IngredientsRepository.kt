@@ -39,4 +39,12 @@ class IngredientsRepository {
     fun getIngredients(): List<Ingredient> = realm.where(Ingredient::class.java).findAll()
 
     fun getIngredient(name: String): Ingredient = realm.where(Ingredient::class.java).equalTo("name", name).findFirst()
+
+    fun toggleIngredientChecked(ingredient: Ingredient): Boolean {
+        realm.executeTransaction {
+            ingredient.isChecked = !ingredient.isChecked
+        }
+
+        return ingredient.isChecked
+    }
 }

@@ -12,5 +12,6 @@ import io.realm.annotations.PrimaryKey
 open class Ingredient(
         @PrimaryKey
         open var name: String = App.EMPTY_STRING,
-        open var effects: RealmList<IngredientEffect> = RealmList()
+        open var effects: RealmList<IngredientEffect> = RealmList(),
+        open var isChecked: Boolean = false
 ) : RealmObject()

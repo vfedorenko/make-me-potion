@@ -42,6 +42,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{viewModel::onFabClick}"
+            android:isVisible="@{!viewModel.makePotion}"
             android:src="@mipmap/ic_launcher" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/make_potion"
+            android:isVisible="@{viewModel.makePotion}"/>
     </android.support.design.widget.CoordinatorLayout>
 </layout>
