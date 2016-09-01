@@ -1,6 +1,8 @@
 package by.vfedorenko.makemepotion.presentation.ingredients.viewmodels
 
+import android.util.Log
 import android.view.View
+import by.vfedorenko.makemepotion.businesslogic.Alchemist
 import by.vfedorenko.makemepotion.businesslogic.IngredientsRepository
 import by.vfedorenko.makemepotion.presentation.ingredients.activities.IngredientsActivity
 import by.vfedorenko.makemepotion.presentation.ingredients.adapters.IngredientsAdapter
@@ -27,6 +29,13 @@ class IngredientsViewModel
     }
 
     fun onMakeClick(v: View) {
-
+        val potion = Alchemist().beginExperiment(repository.getCheckedIngredients())
+        Log.d("111", "--------------------------------------- potion points = ${potion?.points}")
+        potion?.ingredients?.forEach {
+            Log.d("111", "ingr: ${it.name}")
+        }
+        potion?.effects?.forEach {
+            Log.d("111", "eff: ${it.effect.name}")
+        }
     }
 }

@@ -47,4 +47,8 @@ class IngredientsRepository {
 
         return ingredient.isChecked
     }
+
+    fun  getCheckedIngredients(): List<Ingredient> {
+        return realm.where(Ingredient::class.java).equalTo("isChecked", true).findAll()
+    }
 }

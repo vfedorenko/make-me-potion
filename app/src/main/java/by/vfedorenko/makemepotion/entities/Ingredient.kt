@@ -14,4 +14,11 @@ open class Ingredient(
         open var name: String = App.EMPTY_STRING,
         open var effects: RealmList<IngredientEffect> = RealmList(),
         open var isChecked: Boolean = false
-) : RealmObject()
+) : RealmObject() {
+    override fun equals(other: Any?): Boolean {
+        if (other is Ingredient) {
+            return name == other.name
+        }
+        return false
+    }
+}
