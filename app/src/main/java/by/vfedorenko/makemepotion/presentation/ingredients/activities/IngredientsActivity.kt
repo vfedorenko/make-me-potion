@@ -4,15 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import by.vfedorenko.makemepotion.R
 import by.vfedorenko.makemepotion.databinding.ActivityIngredientsBinding
 import by.vfedorenko.makemepotion.presentation.App
 import by.vfedorenko.makemepotion.presentation.BaseToolbarActivity
-import by.vfedorenko.makemepotion.presentation.ingredients.assemblies.IngredientsModule
 import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientsViewModel
 import javax.inject.Inject
-import javax.inject.Named
 
 class IngredientsActivity : BaseToolbarActivity() {
     companion object {
@@ -29,7 +26,6 @@ class IngredientsActivity : BaseToolbarActivity() {
     }
 
     @Inject
-    @Named(IngredientsModule.INGREDIENTS_VIEW_MODEL)
     lateinit var viewModel: IngredientsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:text="@string/make_potion"
-                android:onClick="@{viewModel.onMakeClick}"
+                android:onClick="@{viewModel::onMakeClick}"
                 android:isVisible="@{viewModel.makePotion}"/>
         </LinearLayout>
 

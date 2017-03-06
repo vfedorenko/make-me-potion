@@ -9,7 +9,6 @@ import by.vfedorenko.makemepotion.R
 import by.vfedorenko.makemepotion.databinding.ActivityIngredientBinding
 import by.vfedorenko.makemepotion.presentation.App
 import by.vfedorenko.makemepotion.presentation.BaseToolbarActivity
-import by.vfedorenko.makemepotion.presentation.ingredients.assemblies.IngredientsModule
 import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientDetailsViewModel
 import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientViewModel
 import javax.inject.Inject
@@ -28,7 +27,6 @@ class IngredientActivity : BaseToolbarActivity() {
     }
 
     @Inject
-    @Named(IngredientsModule.INGREDIENT_DETAILS_VIEW_MODEL)
     lateinit var viewModel: IngredientDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

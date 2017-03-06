@@ -3,13 +3,12 @@ package by.vfedorenko.makemepotion.presentation
 import android.app.Application
 import android.support.v7.app.AppCompatActivity
 import by.vfedorenko.makemepotion.R
-import by.vfedorenko.makemepotion.businesslogic.DataModule
-import by.vfedorenko.makemepotion.businesslogic.IngredientsRepository
+import by.vfedorenko.makemepotion.businesslogic.data.DataModule
+import by.vfedorenko.makemepotion.businesslogic.data.RealmIngredientsRepository
 import by.vfedorenko.makemepotion.presentation.assemblies.AppModule
 import by.vfedorenko.makemepotion.presentation.assemblies.DaggerAppComponent
 import by.vfedorenko.makemepotion.presentation.ingredients.activities.IngredientActivity
 import by.vfedorenko.makemepotion.presentation.ingredients.activities.IngredientsActivity
-import by.vfedorenko.makemepotion.presentation.ingredients.assemblies.IngredientsModule
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import java.io.BufferedReader
@@ -32,10 +31,10 @@ class App : Application() {
     }
 
     private val ingredientsComponent by lazy {
-        appComponent.plus(IngredientsModule())
+        appComponent.plus()
     }
 
-    var repo: IngredientsRepository = IngredientsRepository()
+    var repo: RealmIngredientsRepository = RealmIngredientsRepository()
 
     override fun onCreate() {
         super.onCreate()

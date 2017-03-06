@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import by.vfedorenko.makemepotion.BR
 import by.vfedorenko.makemepotion.R
-import by.vfedorenko.makemepotion.businesslogic.IngredientsRepository
+import by.vfedorenko.makemepotion.businesslogic.data.RealmIngredientsRepository
 import by.vfedorenko.makemepotion.databinding.ItemIngredientBinding
-import by.vfedorenko.makemepotion.entities.Ingredient
+import by.vfedorenko.makemepotion.entities.plain.Ingredient
 import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientViewModel
 
 /**
@@ -34,7 +34,7 @@ class IngredientsAdapter(val isMakePotion: Boolean) : RecyclerView.Adapter<Ingre
     override fun getItemCount(): Int = ingredients.size
 
     override fun onBindViewHolder(holder: BindingHolder?, position: Int) {
-        val viewModel = IngredientViewModel(IngredientsRepository())
+        val viewModel = IngredientViewModel(RealmIngredientsRepository())
         viewModel.ingredient = ingredients[position]
         viewModel.isCheckBoxVisible = isMakePotion
 
@@ -46,5 +46,13 @@ class IngredientsAdapter(val isMakePotion: Boolean) : RecyclerView.Adapter<Ingre
         ingredients.clear()
         ingredients.addAll(items)
         notifyDataSetChanged()
+    }
+
+    fun getCheckedItems(): List<Ingredient> {
+        if (!isMakePotion) {
+            return emptyList()
+        }
+
+        return ingredients.filter { it.isChecked }
     }
 }

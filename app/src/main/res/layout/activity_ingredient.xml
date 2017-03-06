@@ -8,8 +8,6 @@
         <variable
             name="viewModel"
             type="by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientDetailsViewModel" />
-
-        <import type="android.graphics.Color" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

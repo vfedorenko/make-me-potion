@@ -8,7 +8,7 @@ import dagger.Subcomponent
  * Created by Vlad Fedorenko <vfedo92@gmail.com>
  * 08.31.2016
  */
-@Subcomponent(modules = arrayOf(IngredientsModule::class))
+@Subcomponent()
 interface IngredientsComponent {
     fun inject(activity: IngredientsActivity)
     fun inject(activity: IngredientActivity)

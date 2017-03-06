@@ -1,21 +1,21 @@
 package by.vfedorenko.makemepotion.businesslogic
 
-import by.vfedorenko.makemepotion.entities.Ingredient
-import by.vfedorenko.makemepotion.entities.IngredientEffect
-import by.vfedorenko.makemepotion.entities.Potion
+import by.vfedorenko.makemepotion.entities.plain.Effect
+import by.vfedorenko.makemepotion.entities.plain.Ingredient
+import by.vfedorenko.makemepotion.entities.plain.Potion
 
 /**
- * Created by Vlad Fedorenko on 31.08.16.
- */
+* @author Vlad Fedorenko <vfedo92@gmail.com> on 31.08.16.
+*/
 class Alchemist {
 
-//    fun makePotion(ingredients: List<Ingredient>): Potion {
+//    fun makePotion(ingredients: List<RealmIngredient>): Potion {
 //
 //
 //        return Potion()
 //    }
 //
-//    private fun tryToUseUnknownOnly(ingredients: List<Ingredient>): Potion {
+//    private fun tryToUseUnknownOnly(ingredients: List<RealmIngredient>): Potion {
 //        var unknownEffects = ingredients
 //                .flatMap { it.effects }
 //                .filter { !it.isKnown }
@@ -69,10 +69,10 @@ class Alchemist {
         return potion
     }
 
-    private fun getEqual(list: List<IngredientEffect>, item: IngredientEffect): IngredientEffect? {
+    private fun getEqual(list: List<Effect>, item: Effect): Effect? {
         val effects = list.toMutableList()
 
-        effects.filter { it.effect.name == item.effect.name }
+        effects.filter { it.name == item.name }
                 .filter { !it.isKnown }
 
         if (effects.size > 0) {
