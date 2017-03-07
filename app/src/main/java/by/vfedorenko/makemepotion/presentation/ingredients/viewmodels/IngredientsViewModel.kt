@@ -1,7 +1,10 @@
 package by.vfedorenko.makemepotion.presentation.ingredients.viewmodels
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import by.vfedorenko.makemepotion.businesslogic.Alchemist
 import by.vfedorenko.makemepotion.businesslogic.data.IngredientsRepository
 import by.vfedorenko.makemepotion.presentation.ingredients.activities.IngredientsActivity
@@ -30,12 +33,35 @@ class IngredientsViewModel
 
     fun onMakeClick(v: View) {
         val potion = Alchemist().beginExperiment(adapter.getCheckedItems())
-        Log.d("111", "--------------------------------------- potion points = ${potion?.points}")
-        potion?.ingredients?.forEach {
-            Log.d("111", "ingr: ${it.name}")
-        }
-        potion?.effects?.forEach {
-            Log.d("111", "eff: ${it.name}")
+        Log.d("111", "--------------------------------------- potion points = ${potion.points}")
+
+        if (potion.points > 0) {
+            var msg = "Combine: "
+
+            potion.ingredients.forEach { msg += "${it.name} " }
+
+            msg += "to learn: "
+
+            potion.effects.forEach { msg += "${it.name} " }
+
+            val builder = AlertDialog.Builder(v.context)
+
+            builder.setTitle("Best choice for you:")
+                    .setMessage(msg)
+                    .setPositiveButton("Done", DialogInterface.OnClickListener { dialog, which ->
+                        potion.ingredients.forEach { ingr ->
+                            potion.effects.forEach { effect ->
+                                Log.d("111", "ingr: ${ingr.name} eff: ${effect.name}")
+                                repository.setIngredientEffectKnown(ingr, effect, true)
+                                adapter.setEffectKnown(ingr, effect)
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+
+            builder.create().show()
+        } else {
+            Toast.makeText(v.context, "No potions available", Toast.LENGTH_SHORT).show()
         }
     }
 }

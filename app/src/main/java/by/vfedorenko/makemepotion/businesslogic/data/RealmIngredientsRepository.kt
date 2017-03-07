@@ -1,5 +1,6 @@
 package by.vfedorenko.makemepotion.businesslogic.data
 
+import by.vfedorenko.makemepotion.entities.plain.Effect
 import by.vfedorenko.makemepotion.entities.plain.Ingredient
 import by.vfedorenko.makemepotion.entities.realm.RealmEffect
 import by.vfedorenko.makemepotion.entities.realm.RealmIngredient
@@ -40,4 +41,15 @@ class RealmIngredientsRepository : IngredientsRepository {
     override fun getIngredients(): List<Ingredient> = realm.where(RealmIngredient::class.java).findAll().map { it.toPlainObject() }
 
     override fun getIngredient(name: String): Ingredient = realm.where(RealmIngredient::class.java).equalTo("name", name).findFirst().toPlainObject()
+
+    override fun setIngredientEffectKnown(ingredient: Ingredient, effect: Effect, isKnown: Boolean) {
+        val realmIngredient = realm.where(RealmIngredient::class.java).equalTo("name", ingredient.name).findFirst()
+
+        realm.executeTransaction {
+            realmIngredient.effects
+                    .filter { it.effect.name == effect.name }
+                    .first()
+                    .isKnown = isKnown
+        }
+    }
 }

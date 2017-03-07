@@ -1,6 +1,5 @@
 package by.vfedorenko.makemepotion.businesslogic
 
-import by.vfedorenko.makemepotion.entities.plain.EffectIngredient
 import by.vfedorenko.makemepotion.entities.plain.Ingredient
 import by.vfedorenko.makemepotion.entities.plain.Potion
 
@@ -8,113 +7,52 @@ import by.vfedorenko.makemepotion.entities.plain.Potion
 * @author Vlad Fedorenko <vfedo92@gmail.com> on 31.08.16.
 */
 class Alchemist {
+    private companion object {
+        const val UNKNOWN_EFFECT_POINTS = 3
+        const val KNOWN_EFFECT_POINTS = 1
+    }
 
-//    fun makePotion(ingredients: List<RealmIngredient>): Potion {
-//
-//
-//        return Potion()
-//    }
-//
-//    private fun tryToUseUnknownOnly(ingredients: List<RealmIngredient>): Potion {
-//        var unknownEffects = ingredients
-//                .flatMap { it.effects }
-//                .filter { !it.isKnown }
-//
-//        return Potion()
-//    }
+    fun beginExperiment(ingredients: List<Ingredient>): Potion {
+        val results: MutableList<Potion> = mutableListOf()
 
-    fun beginExperiment(ingredients: List<Ingredient>): Potion? {
-        var result = Potion()
+        var tempList = ingredients
+        while (tempList.size > 1) {
+            val firstIngredient = tempList.get(0)
+            tempList = tempList.drop(1)
 
-        val effectsIngredients: MutableList<EffectIngredient> = mutableListOf()
-        ingredients.forEach { ingr ->
-            ingr.effects.forEach { effectsIngredients.add(EffectIngredient(it, ingr)) }
-        }
+            tempList.forEach {
+                val potion = createPotion(firstIngredient, it)
 
-        val unknownEffects: List<EffectIngredient> = effectsIngredients
-                .filter { !it.effect.isKnown }
-
-        var sameEffects: List<EffectIngredient> = listOf()
-        unknownEffects.forEach { other ->
-            val partitionResult = unknownEffects.partition { it.effect.name == other.effect.name }
-
-            if (partitionResult.first.size > 1) {
-                sameEffects = partitionResult.first
-                return@forEach
+                if (potion.points > 0) {
+                    results.add(potion)
+                }
             }
         }
 
+        return findBestResult(results)
+    }
 
-        if (sameEffects.isNotEmpty()) {
-            var lastEffectIndex = 2
-            if (sameEffects.size > 2) {
-                lastEffectIndex = 3
-            }
+    private fun createPotion(ingr1: Ingredient, ingr2: Ingredient): Potion {
+        val result = Potion()
 
-            sameEffects.subList(0, lastEffectIndex).forEach {
-                result.effects.add(it.effect)
-                result.ingredients.add(it.ingredient)
+        val effects1 = ingr1.effects.filter { !it.isKnown }
+        val effects2 = ingr2.effects.filter { !it.isKnown }
+
+        effects1.forEach { effect1 ->
+            val index = effects2.indexOf(effect1)
+            if (index != -1) {
+                result.effects.add(effect1)
+                result.ingredients.add(ingr1)
+                result.ingredients.add(ingr2)
+
+                result.points += UNKNOWN_EFFECT_POINTS * 2
             }
         }
-
-//        val results: MutableList<Potion> = mutableListOf()
-//
-//        ingredients.forEach { item ->
-//            val itemEffects = item.effects
-//
-//            val result = Potion()
-//            result.ingredients.add(item)
-//
-//            var shouldAddResult = false
-//            ingredients.forEach inner@ { testItem ->
-//                if (item != testItem) {
-//                    if (!result.canAddIngredient()) {
-//                        return@inner
-//                    }
-//
-//                    testItem.effects.forEach { effect ->
-//                        val itemEffect = getEqual(itemEffects, effect)
-//                        if (itemEffect != null) {
-//                            shouldAddResult = true
-//                            result.addEffect(itemEffect)
-//                            result.addEffect(effect)
-//                        }
-//                    }
-//
-//                    if (shouldAddResult) {
-//                        result.ingredients.add(testItem)
-//                    }
-//                }
-//            }
-//
-//            if (shouldAddResult) {
-//                results.add(result)
-//                isSuccessful = true
-//            }
-//        }
-//
-//        var potion: Potion? = null
-//        if (isSuccessful) {
-//            potion = findBestResult(results)
-//        }
 
         return result
     }
 
-//    private fun getEqual(list: List<Effect>, item: Effect): Effect? {
-//        val effects = list.toMutableList()
-//
-//        effects.filter { it.name == item.name }
-//                .filter { !it.isKnown }
-//
-//        if (effects.size > 0) {
-//            return effects[0]
-//        }
-//
-//        return null
-//    }
-//
-//    private fun findBestResult(results: List<Potion>): Potion? {
-//        return results.maxBy { it.points }
-//    }
+    private fun findBestResult(results: List<Potion>): Potion {
+        return results.maxBy { it.points } ?: Potion()
+    }
 }

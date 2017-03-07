@@ -1,5 +1,6 @@
 package by.vfedorenko.makemepotion.businesslogic.data
 
+import by.vfedorenko.makemepotion.entities.plain.Effect
 import by.vfedorenko.makemepotion.entities.plain.Ingredient
 
 /**
@@ -10,4 +11,5 @@ interface IngredientsRepository {
 
     fun getIngredients(): List<Ingredient>
     fun getIngredient(name: String): Ingredient
+    fun setIngredientEffectKnown(ingredient: Ingredient, effect: Effect, isKnown: Boolean)
 }

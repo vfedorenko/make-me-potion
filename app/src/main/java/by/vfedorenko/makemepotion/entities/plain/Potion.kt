@@ -5,18 +5,5 @@ package by.vfedorenko.makemepotion.entities.plain
 */
 data class Potion(
         var points: Int = 0,
-        val ingredients: MutableList<Ingredient> = mutableListOf(),
-        val effects: MutableList<Effect> = mutableListOf()) {
-
-    fun canAddIngredient(): Boolean {
-        return ingredients.size < 3
-    }
-
-    fun addEffect(effect: Effect) {
-        if (!effect.isKnown) {
-            points += 2
-        }
-
-        effects.add(effect)
-    }
-}
+        val ingredients: MutableSet<Ingredient> = mutableSetOf(),
+        val effects: MutableList<Effect> = mutableListOf())

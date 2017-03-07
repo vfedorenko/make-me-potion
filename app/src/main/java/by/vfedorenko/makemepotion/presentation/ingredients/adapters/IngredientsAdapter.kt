@@ -9,6 +9,7 @@ import by.vfedorenko.makemepotion.BR
 import by.vfedorenko.makemepotion.R
 import by.vfedorenko.makemepotion.businesslogic.data.RealmIngredientsRepository
 import by.vfedorenko.makemepotion.databinding.ItemIngredientBinding
+import by.vfedorenko.makemepotion.entities.plain.Effect
 import by.vfedorenko.makemepotion.entities.plain.Ingredient
 import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientViewModel
 
@@ -17,13 +18,14 @@ import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.Ingredient
  * 08.30.2016
  */
 class IngredientsAdapter(val isMakePotion: Boolean) : RecyclerView.Adapter<IngredientsAdapter.BindingHolder>() {
-    class BindingHolder : RecyclerView.ViewHolder {
+    class BindingHolder(item: View) : RecyclerView.ViewHolder(item) {
         var binding: ItemIngredientBinding
             private set
 
-        constructor(item: View) : super(item) {
+        init {
             binding = DataBindingUtil.bind(item)
         }
+
     }
 
     val ingredients: MutableList<Ingredient> = mutableListOf()
@@ -54,5 +56,15 @@ class IngredientsAdapter(val isMakePotion: Boolean) : RecyclerView.Adapter<Ingre
         }
 
         return ingredients.filter { it.isChecked }
+    }
+
+    fun setEffectKnown(ingredient: Ingredient, effect: Effect) {
+        val ingr = ingredients.find { ingredient.name == it.name }
+
+        if (ingr != null) {
+            ingr.effects
+                    .find { effect.name == it.name }
+                    ?.isKnown = true
+        }
     }
 }
