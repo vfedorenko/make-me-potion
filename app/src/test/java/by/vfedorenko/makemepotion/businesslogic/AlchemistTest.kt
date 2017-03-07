@@ -48,7 +48,7 @@ class AlchemistTest {
         assertNotNull(testPotion)
 
         if (testPotion != null) {
-            assertTrue(testPotion.effects.size == 1)
+            assertTrue(testPotion.effects.size == 2)
             assertTrue(testPotion.effects.get(0) == sameEffect)
             assertTrue(testPotion.ingredients.size == 2)
         }

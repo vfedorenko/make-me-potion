@@ -12,5 +12,5 @@ open class RealmIngredientEffect(
         open var effect: RealmEffect = RealmEffect(),
         open var isKnown: Boolean = false
 ) : RealmObject(), Plainable<Effect> {
-    override fun toPlainObject() = Effect(effect.name, isKnown)
+    override fun toPlainObject() = Effect(name = effect.name, isKnown = isKnown)
 }
