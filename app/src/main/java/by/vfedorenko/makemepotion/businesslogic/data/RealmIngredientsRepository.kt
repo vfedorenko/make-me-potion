@@ -12,6 +12,7 @@ import io.realm.Realm
  * 08.30.2016
  */
 class RealmIngredientsRepository : IngredientsRepository {
+
     private val realm by lazy {
         Realm.getDefaultInstance()
     }
@@ -41,6 +42,12 @@ class RealmIngredientsRepository : IngredientsRepository {
     override fun getIngredients(): List<Ingredient> = realm.where(RealmIngredient::class.java).findAll().map { it.toPlainObject() }
 
     override fun getIngredient(name: String): Ingredient = realm.where(RealmIngredient::class.java).equalTo("name", name).findFirst().toPlainObject()
+
+    override fun setIngredientChecked(ingredient: Ingredient, isChecked: Boolean) {
+        val realmIngredient = realm.where(RealmIngredient::class.java).equalTo("name", ingredient.name).findFirst()
+
+        realm.executeTransaction { realmIngredient.isChecked = isChecked }
+    }
 
     override fun setIngredientEffectKnown(ingredient: Ingredient, effect: Effect, isKnown: Boolean) {
         val realmIngredient = realm.where(RealmIngredient::class.java).equalTo("name", ingredient.name).findFirst()

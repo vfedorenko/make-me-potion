@@ -1,7 +1,6 @@
 package by.vfedorenko.makemepotion.presentation.ingredients.viewmodels
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -38,24 +37,25 @@ class IngredientsViewModel
         if (potion.points > 0) {
             var msg = "Combine: "
 
-            potion.ingredients.forEach { msg += "${it.name} " }
+            potion.ingredients.forEach { msg += "${it.name}\n" }
 
-            msg += "to learn: "
+            msg += "\nTo learn:"
 
-            potion.effects.forEach { msg += "${it.name} " }
+            potion.effects.forEach { msg += "\n${it.name} " }
 
             val builder = AlertDialog.Builder(v.context)
 
             builder.setTitle("Best choice for you:")
                     .setMessage(msg)
-                    .setPositiveButton("Done", DialogInterface.OnClickListener { dialog, which ->
+                    .setPositiveButton("Done", { _, _ ->
                         potion.ingredients.forEach { ingr ->
                             potion.effects.forEach { effect ->
                                 Log.d("111", "ingr: ${ingr.name} eff: ${effect.name}")
                                 repository.setIngredientEffectKnown(ingr, effect, true)
-                                adapter.setEffectKnown(ingr, effect)
                             }
                         }
+
+                        refreshData()
                     })
                     .setNegativeButton("Cancel", null)
 

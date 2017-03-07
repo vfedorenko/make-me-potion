@@ -14,6 +14,10 @@ import javax.inject.Inject
 class IngredientViewModel
 @Inject constructor(val repository: IngredientsRepository) {
     var ingredient = Ingredient()
+        set(value) {
+            field = value
+            isChecked.set(value.isChecked)
+        }
 
     var isCheckBoxVisible: Boolean = false
     val isChecked = ObservableBoolean(false)
@@ -24,6 +28,7 @@ class IngredientViewModel
         if (isCheckBoxVisible) {
             ingredient.isChecked = !ingredient.isChecked
             isChecked.set(ingredient.isChecked)
+            repository.setIngredientChecked(ingredient, ingredient.isChecked)
         } else {
             v.context.startActivity(IngredientActivity.createIntent(v.context, getName()))
         }

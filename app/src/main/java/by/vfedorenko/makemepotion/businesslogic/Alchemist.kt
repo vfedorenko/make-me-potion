@@ -1,5 +1,6 @@
 package by.vfedorenko.makemepotion.businesslogic
 
+import by.vfedorenko.makemepotion.entities.plain.Effect
 import by.vfedorenko.makemepotion.entities.plain.Ingredient
 import by.vfedorenko.makemepotion.entities.plain.Potion
 
@@ -8,7 +9,7 @@ import by.vfedorenko.makemepotion.entities.plain.Potion
 */
 class Alchemist {
     private companion object {
-        const val UNKNOWN_EFFECT_POINTS = 3
+        const val UNKNOWN_EFFECT_POINTS = 5
         const val KNOWN_EFFECT_POINTS = 1
     }
 
@@ -35,17 +36,19 @@ class Alchemist {
     private fun createPotion(ingr1: Ingredient, ingr2: Ingredient): Potion {
         val result = Potion()
 
-        val effects1 = ingr1.effects.filter { !it.isKnown }
-        val effects2 = ingr2.effects.filter { !it.isKnown }
-
-        effects1.forEach { effect1 ->
-            val index = effects2.indexOf(effect1)
+        ingr1.effects.forEach { effect1 ->
+            val index = ingr2.effects.indexOf(effect1)
             if (index != -1) {
-                result.effects.add(effect1)
-                result.ingredients.add(ingr1)
-                result.ingredients.add(ingr2)
+                val effect2 = ingr2.effects[index]
 
-                result.points += UNKNOWN_EFFECT_POINTS * 2
+                if (!effect1.isKnown || !effect2.isKnown) {
+                    result.effects.add(effect1)
+                    result.ingredients.add(ingr1)
+                    result.ingredients.add(ingr2)
+
+                    result.points += getPoints(effect1)
+                    result.points += getPoints(effect2)
+                }
             }
         }
 
@@ -54,5 +57,9 @@ class Alchemist {
 
     private fun findBestResult(results: List<Potion>): Potion {
         return results.maxBy { it.points } ?: Potion()
+    }
+
+    private fun getPoints(effect: Effect): Int {
+        return if (effect.isKnown) KNOWN_EFFECT_POINTS else UNKNOWN_EFFECT_POINTS
     }
 }

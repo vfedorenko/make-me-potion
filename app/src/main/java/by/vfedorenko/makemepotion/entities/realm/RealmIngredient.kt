@@ -14,10 +14,11 @@ import io.realm.annotations.PrimaryKey
 open class RealmIngredient(
         @PrimaryKey
         open var name: String = App.EMPTY_STRING,
+        open var isChecked: Boolean = false,
         open var effects: RealmList<RealmIngredientEffect> = RealmList()
 ) : RealmObject(), Plainable<Ingredient> {
 
-    override fun toPlainObject() = Ingredient(name, effects.map { it.toPlainObject() })
+    override fun toPlainObject() = Ingredient(name, effects.map { it.toPlainObject() }, isChecked)
 
     override fun equals(other: Any?): Boolean {
         if (other is RealmIngredient) {

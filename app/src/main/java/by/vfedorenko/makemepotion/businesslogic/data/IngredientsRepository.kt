@@ -11,5 +11,6 @@ interface IngredientsRepository {
 
     fun getIngredients(): List<Ingredient>
     fun getIngredient(name: String): Ingredient
+    fun setIngredientChecked(ingredient: Ingredient, isChecked: Boolean)
     fun setIngredientEffectKnown(ingredient: Ingredient, effect: Effect, isKnown: Boolean)
 }
