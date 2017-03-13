@@ -8,9 +8,9 @@ import by.vfedorenko.makemepotion.entities.plain.Potion
 * @author Vlad Fedorenko <vfedo92@gmail.com> on 31.08.16.
 */
 class Alchemist {
-    private companion object {
-        const val UNKNOWN_EFFECT_POINTS = 5
-        const val KNOWN_EFFECT_POINTS = 1
+    companion object {
+        const val UNKNOWN_EFFECT_POINTS = 1
+        const val KNOWN_EFFECT_POINTS = 0
     }
 
     fun beginExperiment(ingredients: List<Ingredient>): Potion {

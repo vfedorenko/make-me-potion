@@ -65,7 +65,7 @@ class AlchemistTest {
     fun bestPotion() {
         val testPotion = alchemist.beginExperiment(bestChoise)
 
-        assertEquals(testPotion.points, 20)
+        assertEquals(testPotion.points, Alchemist.UNKNOWN_EFFECT_POINTS * 4)
 
         assertEquals(testPotion.effects.size, 2)
         assertEquals(testPotion.ingredients.size, 2)
@@ -81,10 +81,13 @@ class AlchemistTest {
     fun minPotion() {
         val testPotion = alchemist.beginExperiment(minChoise)
 
-        assertEquals(testPotion.points, 6)
+        assertEquals(testPotion.points, Alchemist.UNKNOWN_EFFECT_POINTS + Alchemist.KNOWN_EFFECT_POINTS)
 
         assertEquals(testPotion.effects.size, 1)
         assertEquals(testPotion.ingredients.size, 2)
+
+        assertEquals(INGREDIENT_1, testPotion.ingredients.toList()[0].name)
+        assertEquals(INGREDIENT_3, testPotion.ingredients.toList()[1].name)
 
         Assert.assertTrue(testPotion.effects.contains(effect1))
     }
