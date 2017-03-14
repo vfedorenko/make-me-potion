@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">Make Me Potion</string>
-    <string name="title_activity_ingredients">IngredientsActivity</string>
+    <string name="app_name">Skyrim Alchemist</string>
     <string name="make_potion">Make a Potion!</string>
+    <string name="combine">Combine:\n</string>
+    <string name="to_learn">\nTo learn:</string>
+    <string name="potion_dialog_title">Best choice for you:</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_potion_available">No potions available</string>
 </resources>
