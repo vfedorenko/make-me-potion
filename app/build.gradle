@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    ext.support_version = '25.2.0'
+    ext.support_version = '25.3.0'
     ext.dagger_version = '2.10'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
