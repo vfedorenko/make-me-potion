@@ -1,57 +1,51 @@
 package by.vfedorenko.makemepotion.presentation
 
+import android.app.Activity
 import android.app.Application
-import android.support.v7.app.AppCompatActivity
 import by.vfedorenko.makemepotion.R
-import by.vfedorenko.makemepotion.businesslogic.data.DataModule
-import by.vfedorenko.makemepotion.businesslogic.data.RealmIngredientsRepository
-import by.vfedorenko.makemepotion.presentation.assemblies.AppModule
+import by.vfedorenko.makemepotion.businesslogic.data.IngredientsRepository
 import by.vfedorenko.makemepotion.presentation.assemblies.DaggerAppComponent
-import by.vfedorenko.makemepotion.presentation.ingredients.activities.IngredientActivity
-import by.vfedorenko.makemepotion.presentation.ingredients.activities.IngredientsActivity
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasDispatchingActivityInjector
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import javax.inject.Inject
 
 /**
  * Created by Vlad Fedorenko <vfedo92@gmail.com>
  * 08.30.2016
  */
-class App : Application() {
+class App : Application(), HasDispatchingActivityInjector {
     companion object {
         const val EMPTY_STRING = ""
     }
 
-    private val appComponent by lazy {
-        DaggerAppComponent.builder()
-                .appModule(AppModule(applicationContext))
-                .dataModule(DataModule())
-                .build()
-    }
+    @Inject
+    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
 
-    private val ingredientsComponent by lazy {
-        appComponent.plus()
-    }
-
-    var repo: RealmIngredientsRepository = RealmIngredientsRepository()
+    @Inject
+    lateinit var repo: IngredientsRepository
 
     override fun onCreate() {
         super.onCreate()
 
-        val realmConfig = RealmConfiguration.Builder(this)
+        Realm.init(this)
+
+        val realmConfig = RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(realmConfig)
 
+        DaggerAppComponent.create()
+                .inject(this)
+
         fillRealmIfNeeded()
     }
 
-    fun injectMe(activity: AppCompatActivity) = when(activity) {
-        is IngredientsActivity -> ingredientsComponent.inject(activity)
-        is IngredientActivity -> ingredientsComponent.inject(activity)
-        else -> { /* Do nothing */}
-    }
+    override fun activityInjector() = dispatchingActivityInjector
+
 
     private fun fillRealmIfNeeded() {
         val realm = Realm.getDefaultInstance()

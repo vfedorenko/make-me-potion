@@ -22,18 +22,19 @@ class RealmIngredientsRepository : IngredientsRepository {
             rawList.forEach {
                 val raw = it.split(";")
 
-                val ingredient = realm.createObject(RealmIngredient::class.java)
-                ingredient.name = raw[0]
+                val ingredient = realm.createObject(RealmIngredient::class.java, raw[0])
 
                 for (i in 1..raw.size - 1) {
-                    val effect = RealmEffect()
-                    effect.name = (raw[i])
+                    var effect: RealmEffect? = realm.where(RealmEffect::class.java).equalTo("name", raw[i]).findFirst()
+                    if (effect == null) {
+                        effect = realm.createObject(RealmEffect::class.java, raw[i])
+                    }
 
-                    val ingredientEffect = realm.createObject(RealmIngredientEffect::class.java)
-                    ingredientEffect.effect = realm.copyToRealmOrUpdate(effect)
+                    val ingredientEffect = RealmIngredientEffect()
+                    ingredientEffect.effect = effect!!
                     ingredientEffect.isKnown = false
 
-                    ingredient.effects.add(ingredientEffect)
+                    ingredient.effects.add(realm.copyToRealm(ingredientEffect))
                 }
             }
         }

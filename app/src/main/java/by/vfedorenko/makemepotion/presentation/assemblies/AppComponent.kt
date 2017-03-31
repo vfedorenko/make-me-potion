@@ -1,7 +1,7 @@
 package by.vfedorenko.makemepotion.presentation.assemblies
 
 import by.vfedorenko.makemepotion.businesslogic.data.DataModule
-import by.vfedorenko.makemepotion.presentation.ingredients.assemblies.IngredientsComponent
+import by.vfedorenko.makemepotion.presentation.App
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,7 +10,10 @@ import javax.inject.Singleton
  * 08.31.2016
  */
 @Singleton
-@Component(modules = arrayOf(AppModule::class, DataModule::class))
+@Component(modules = arrayOf(
+        AppModule::class,
+        DataModule::class,
+        ActivityModule::class))
 interface AppComponent {
-    fun plus(): IngredientsComponent
+    fun inject(app: App)
 }

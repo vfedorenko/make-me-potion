@@ -9,6 +9,7 @@ import by.vfedorenko.makemepotion.databinding.ActivityIngredientsBinding
 import by.vfedorenko.makemepotion.presentation.App
 import by.vfedorenko.makemepotion.presentation.BaseToolbarActivity
 import by.vfedorenko.makemepotion.presentation.ingredients.viewmodels.IngredientsViewModel
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class IngredientsActivity : BaseToolbarActivity() {
@@ -29,8 +30,8 @@ class IngredientsActivity : BaseToolbarActivity() {
     lateinit var viewModel: IngredientsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        (application as App).injectMe(this)
 
         viewModel.isMakePotion = intent.getBooleanExtra(EXTRA_IS_MAKE_POTION, false)
 

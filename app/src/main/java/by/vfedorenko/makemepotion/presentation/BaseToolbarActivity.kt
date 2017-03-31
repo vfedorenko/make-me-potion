@@ -1,6 +1,4 @@
 package by.vfedorenko.makemepotion.presentation
-
-import android.R
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
@@ -11,7 +9,7 @@ import android.view.MenuItem
  */
 abstract class BaseToolbarActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.home -> {
+        android.R.id.home -> {
             finish()
             true
         }
